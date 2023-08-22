@@ -3,6 +3,7 @@ type ButtonProps = {
   size?: string;
   children: React.ReactNode;
   style?: string;
+  className?: string;
 };
 
 function Button({
@@ -10,6 +11,7 @@ function Button({
   size = 'base',
   children,
   style = 'default',
+  className = '',
 }: ButtonProps) {
   const determineSize = (size: string) => {
     switch (size) {
@@ -32,7 +34,7 @@ function Button({
 
   return (
     <button
-      className={`${determineSize(size)} ${determineStyle(style)}`}
+      className={`${determineSize(size)} ${determineStyle(style)} ${className}`}
       type={type}
     >
       {children}

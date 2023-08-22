@@ -1,8 +1,9 @@
 type FooterProps = {
   page: string;
+  type?: 'landing-page' | 'app';
 };
 
-function Footer({ page }: FooterProps) {
+function Footer({ page, type = 'landing-page' }: FooterProps) {
   return (
     <footer
       className={`flex justify-center ${
@@ -23,18 +24,31 @@ function Footer({ page }: FooterProps) {
         </p>
         <ul className='flex flex-col space-y-4 md:flex-row items-center md:space-y-0 md:space-x-4 h-fit'>
           <li
-            className={`text-sm font-medium hover:text-blue-700 cursor-pointer ${
+            className={`${
+              type === 'app' && 'hidden'
+            } text-sm font-medium hover:text-blue-700 cursor-pointer ${
               page === 'landing-page' ? 'text-white' : 'text-gray-900 '
             }`}
           >
             Log in
           </li>
           <li
-            className={`text-sm font-medium hover:text-blue-700 cursor-pointer ${
+            className={`${
+              type === 'app' && 'hidden'
+            } text-sm font-medium hover:text-blue-700 cursor-pointer ${
               page === 'landing-page' ? 'text-white' : 'text-gray-900 '
             }`}
           >
             Sign up
+          </li>
+          <li
+            className={`${
+              type !== 'app' && 'hidden'
+            } text-sm font-medium hover:text-blue-700 cursor-pointer ${
+              page === 'landing-page' ? 'text-white' : 'text-gray-900 '
+            }`}
+          >
+            Sign out
           </li>
         </ul>
       </div>
