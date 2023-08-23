@@ -26,6 +26,7 @@ function ModelCard({ info, page }: ModelCardProps) {
           size='large'
           style='default'
           className='flex w-fit'
+          onClick={() => navigate(page)}
         >
           Explore <img className='ml-1' src={arrowRight} alt='explore icon' />
         </Button>

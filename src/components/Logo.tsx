@@ -4,9 +4,15 @@ type LogoProps = {
   size?: 'base' | 'large';
   page?: string;
   className?: string;
+  onClick?: () => void;
 };
 
-function Logo({ size = 'base', page = '', className = '' }: LogoProps) {
+function Logo({
+  size = 'base',
+  page = '',
+  className = '',
+  onClick,
+}: LogoProps) {
   const determineSize = (size: string) => {
     switch (size) {
       case 'base':
@@ -18,7 +24,8 @@ function Logo({ size = 'base', page = '', className = '' }: LogoProps) {
 
   return (
     <img
-      className={`${determineSize(size)} ${className}`}
+      onClick={onClick}
+      className={`${determineSize(size)} ${className} cursor-pointer`}
       src={page === 'landing-page' ? logoHeaderWhite : logoHeaderDark}
       alt='logo'
     />

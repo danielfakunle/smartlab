@@ -1,3 +1,4 @@
+import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import Logo from './Logo';
 import MobileMenu from './MobileMenu';
@@ -9,6 +10,7 @@ type NavbarProps = {
 };
 
 function Navbar({ type, page }: NavbarProps) {
+  const navigate = useNavigate();
   return (
     <nav
       className={`flex justify-center relative ${
@@ -17,22 +19,30 @@ function Navbar({ type, page }: NavbarProps) {
     >
       <div className='container flex justify-between items-center py-6 px-4 md:px-6'>
         <div className='flex items-center space-x-8'>
-          <Logo size='base' page={page} />
+          <Logo onClick={() => navigate('/')} size='base' page={page} />
           <ul
             className={`${
               type === 'app' ? 'md:flex' : 'md:hidden'
             } hidden items-center space-x-8`}
           >
-            <li className='text-gray-900 text-sm font-medium hover:text-blue-700 cursor-pointer dark:text-white dark:hover:text-blue-700'>
+            <Link
+              to='/home'
+              className='text-gray-900 text-sm font-medium hover:text-blue-700 cursor-pointer dark:text-white dark:hover:text-blue-700'
+            >
               Home
-            </li>
-            <li className='text-gray-900 text-sm font-medium hover:text-blue-700 cursor-pointer dark:text-white dark:hover:text-blue-700'>
+            </Link>
+            <Link
+              to='/under-construction'
+              className='text-gray-900 text-sm font-medium hover:text-blue-700 cursor-pointer dark:text-white dark:hover:text-blue-700'
+            >
               Leaderboard
-            </li>
+            </Link>
           </ul>
         </div>
-        <div className='flex items-center space-x-4 relative'>
-          <UserDropdown type={type} />
+        <div className='flex items-center space-x-4 '>
+          <div className='relative'>
+            <UserDropdown type={type} />
+          </div>
           {/* Mobile Menu */}
           <MobileMenu page={page} type={type} />
         </div>
@@ -42,10 +52,18 @@ function Navbar({ type, page }: NavbarProps) {
             type === 'app' ? 'md:hidden' : 'md:flex'
           } hidden items-center space-x-8`}
         >
-          <li className='text-gray-900 text-sm font-medium hover:text-blue-700 cursor-pointer dark:text-white dark:hover:text-blue-700'>
+          <Link
+            to='/login'
+            className='text-gray-900 text-sm font-medium hover:text-blue-700 cursor-pointer dark:text-white dark:hover:text-blue-700'
+          >
             Log in
-          </li>
-          <Button size='base' type='button' style='default'>
+          </Link>
+          <Button
+            size='base'
+            type='button'
+            style='default'
+            onClick={() => navigate('/signup')}
+          >
             Sign up
           </Button>
         </ul>

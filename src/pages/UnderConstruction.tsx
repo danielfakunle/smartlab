@@ -1,13 +1,18 @@
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { notFound } from '../assets';
 import Button from '../components/Button';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import UserContext from '../context/UserContext';
 
 function UnderConstruction() {
+  const { currentUser } = useContext(UserContext) as UserContextType;
+  const navigate = useNavigate();
   return (
     <>
       <div className={`min-h-screen flex flex-col`}>
-        <Navbar type='landing-page' page='under-construction' />
+        <Navbar type='app' page='under-construction' />
         <main className='container h-full flex flex-col justify-center self-center space-y-16 px-4 md:px-6 mt-16 mb-32 items-center'>
           <div className='flex flex-col space-y-8 items-center'>
             <div className='flex flex-col space-y-4'>
@@ -18,7 +23,12 @@ function UnderConstruction() {
                 This page is still under construction.
               </p>
             </div>
-            <Button type='button' style='default' size='large'>
+            <Button
+              type='button'
+              style='default'
+              size='large'
+              onClick={() => (currentUser ? navigate('/home') : navigate('/'))}
+            >
               Go home
             </Button>
           </div>
@@ -29,7 +39,7 @@ function UnderConstruction() {
           />
         </main>
       </div>
-      <Footer page='under-construction' />
+      <Footer page='under-construction' type='app' />
     </>
   );
 }

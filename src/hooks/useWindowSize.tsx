@@ -5,13 +5,15 @@ export const useWindowSize = () => {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const handleChange = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
   useEffect(() => {
-    window.onresize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
+    window.addEventListener('resize', handleChange);
+    return () => window.removeEventListener('resize', handleChange);
   }, []);
   return windowSize;
 };

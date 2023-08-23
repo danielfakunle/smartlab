@@ -1,7 +1,10 @@
+import { useContext, useEffect } from 'react';
 import { faceDetectThumb, searchIcon } from '../assets';
 import Footer from '../components/Footer';
 import ModelCard from '../components/ModelCard';
 import Navbar from '../components/Navbar';
+import UserContext from '../context/UserContext';
+import { setUser } from '../utils/authUser';
 
 function Home() {
   const modelInfo = [
@@ -12,6 +15,12 @@ function Home() {
     },
   ];
 
+  const { currentUser } = useContext(UserContext) as UserContextType;
+
+  useEffect(() => {
+    setUser(currentUser);
+  }, []);
+
   return (
     <>
       <div className='flex flex-col min-h-screen'>
@@ -20,7 +29,7 @@ function Home() {
           <div className='flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:justify-between w-full h-fit lg:items-center'>
             <div className='flex flex-col space-y-2'>
               <h1 className='text-2xl leading-none md:text-3xl text-gray-900 font-bold'>
-                Welcome back, John!
+                Welcome back, {currentUser !== null && currentUser.name}!
               </h1>
               <h2 className='text-base md:text-lg text-gray-500'>
                 Click on any of the models below to get started.
@@ -40,7 +49,7 @@ function Home() {
             </div>
           </div>
           <div className='grid md:gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
-            <ModelCard info={modelInfo[0]} page='/facedetect' />
+            <ModelCard info={modelInfo[0]} page='/face-detect' />
           </div>
         </main>
       </div>

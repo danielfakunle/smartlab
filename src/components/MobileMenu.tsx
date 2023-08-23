@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   burgerMenu,
   burgerMenuWhite,
@@ -48,45 +49,54 @@ function MobileMenu({ page = '', type = 'landing-page' }: MobileMenuProps) {
           >
             {type === 'app' ? (
               <>
-                <li
-                  className={`p-3 text-sm font-medium ${
-                    page === 'landing-page'
-                      ? 'text-white hover:bg-blue-950/30'
-                      : 'text-gray-900 hover:bg-gray-200'
-                  } rounded-md`}
-                >
-                  Home
-                </li>
-                <li
-                  className={`p-3 text-sm font-medium ${
-                    page === 'landing-page'
-                      ? 'text-white hover:bg-blue-950/30'
-                      : 'text-gray-900 hover:bg-gray-200'
-                  } rounded-md`}
-                >
-                  Leaderboard
-                </li>
+                <Link to='/home'>
+                  <li
+                    className={`p-3 text-sm font-medium ${
+                      page === 'landing-page'
+                        ? 'text-white hover:bg-blue-950/30'
+                        : 'text-gray-900 hover:bg-gray-200'
+                    } rounded-md`}
+                  >
+                    Home
+                  </li>
+                </Link>
+
+                <Link to='/under-construction'>
+                  <li
+                    className={`p-3 text-sm font-medium ${
+                      page === 'landing-page'
+                        ? 'text-white hover:bg-blue-950/30'
+                        : 'text-gray-900 hover:bg-gray-200'
+                    } rounded-md`}
+                  >
+                    Leaderboard
+                  </li>
+                </Link>
               </>
             ) : (
               <>
-                <li
-                  className={`p-3 text-sm font-medium ${
-                    page === 'landing-page'
-                      ? 'text-white hover:bg-blue-950/30'
-                      : 'text-gray-900 hover:bg-gray-200'
-                  } rounded-md`}
-                >
-                  Log in
-                </li>
-                <li
-                  className={`p-3 text-sm font-medium ${
-                    page === 'landing-page'
-                      ? 'text-white hover:bg-blue-950/30'
-                      : 'text-gray-900 hover:bg-gray-200'
-                  } rounded-md`}
-                >
-                  Sign up
-                </li>
+                <Link to='/login'>
+                  <li
+                    className={`p-3 text-sm font-medium ${
+                      page === 'landing-page'
+                        ? 'text-white hover:bg-blue-950/30'
+                        : 'text-gray-900 hover:bg-gray-200'
+                    } rounded-md`}
+                  >
+                    Log in
+                  </li>
+                </Link>
+                <Link to='/signup'>
+                  <li
+                    className={`p-3 text-sm font-medium ${
+                      page === 'landing-page'
+                        ? 'text-white hover:bg-blue-950/30'
+                        : 'text-gray-900 hover:bg-gray-200'
+                    } rounded-md`}
+                  >
+                    Sign up
+                  </li>
+                </Link>
               </>
             )}
           </ul>

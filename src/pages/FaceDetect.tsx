@@ -1,34 +1,22 @@
 import { motion } from 'framer-motion';
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { imageLinkIcon } from '../assets';
 import Button from '../components/Button';
 import Footer from '../components/Footer';
+import Loading from '../components/Loading';
 import Navbar from '../components/Navbar';
+import LoadingContext from '../context/LoadingContext';
+import UserContext from '../context/UserContext';
 import { useWindowSize } from '../hooks/useWindowSize';
+import { setUser } from '../utils/authUser';
 import detectFace from '../utils/detectFace';
-
-type BoundingBox = {
-  top_row: number;
-  bottom_row: number;
-  left_col: number;
-  right_col: number;
-};
-
-type DataRegions = {
-  data: {};
-  id: string;
-  region_info: {
-    bounding_box: BoundingBox;
-  };
-  value: number;
-}[];
-
-type DisplayInfo = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-}[];
 
 function FaceDetect() {
   const [imageUrl, setImageUrl] = useState('');
@@ -38,24 +26,59 @@ function FaceDetect() {
   const image = useRef<HTMLImageElement>(null!);
   const contentBox = useRef<HTMLDivElement>(null!);
 
+  const { loading, setLoading } = useContext(
+    LoadingContext
+  ) as LoadingContextType;
+  const { currentUser, setCurrentUser } = useContext(
+    UserContext
+  ) as UserContextType;
+
   const handleImageSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     image.current.src = imageUrl;
     const response: DataRegions | null = await detectFace(imageUrl);
-    if (response === null) {
+    if (!response) {
       alert('Error detecting face. Make sure the url links to an image.');
+      setLoading(false);
+      setDisplayInfo([]);
     } else {
       setDataRegions(response);
+      try {
+        // updating entries
+        const entriesResponse = await fetch(
+          `${import.meta.env.VITE_SERVER_URL}facedetect`,
+          {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: currentUser.id,
+            }),
+          }
+        );
+        const data = await entriesResponse.json();
+        if (entriesResponse.status === 400) {
+          alert(data);
+        } else {
+          setCurrentUser((prev: User) => ({ ...prev, entries: data.entries }));
+        }
+      } catch {
+        alert('Error updating points');
+      }
     }
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setImageUrl(e.target.value);
   };
+  // set local storage to be user with updated entries
+  useEffect(() => {
+    setUser(currentUser);
+  }, [currentUser]);
 
   useEffect(() => {
     // If there are data regions...
-    if (dataRegions.length !== 0) {
+    if (dataRegions) {
       // get bounding boxes...
       const boundingBoxes: BoundingBox[] = [
         ...Array(dataRegions.length).keys(),
@@ -83,6 +106,11 @@ function FaceDetect() {
       });
       setDisplayInfo(displayInfo);
     }
+    setLoading(false);
+    return () => {
+      setLoading(true);
+      setDisplayInfo([]);
+    };
   }, [dataRegions, windowSize]);
 
   return (
@@ -123,10 +151,11 @@ function FaceDetect() {
             </form>
           </div>
           <div className='flex flex-col items-center space-y-4 w-full'>
+            {loading && <Loading />}
             <div
               ref={contentBox}
-              className={`h-fit ${
-                dataRegions.length !== 0 ? 'opacity-100' : 'opacity-0'
+              className={`min-h-fit ${
+                loading || !dataRegions ? 'opacity-0' : 'opacity-100'
               } w-full lg:w-[800px] rounded-lg bg-gray-100 border-2 border-dashed border-gray-200 flex justify-center relative`}
             >
               <img ref={image} className={`object-contain rounded-md`} src='' />
@@ -145,7 +174,9 @@ function FaceDetect() {
                 );
               })}
             </div>
-            <p className='text-gray-900 text-lg'>Your score: 2pts</p>
+            <p className='text-gray-900 text-lg'>
+              Your score: {currentUser.entries}pts
+            </p>
           </div>
         </main>
       </div>

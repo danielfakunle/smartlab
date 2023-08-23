@@ -1,19 +1,3 @@
-type BoundingBox = {
-  top_row: number;
-  bottom_row: number;
-  left_col: number;
-  right_col: number;
-};
-
-type DataRegions = {
-  data: {};
-  id: string;
-  region_info: {
-    bounding_box: BoundingBox;
-  };
-  value: number;
-}[];
-
 export default async function detectFace(imageUrl: string) {
   const PAT = 'e7a10e61e24e4e3f97eb5e713d08d5d1';
   const USER_ID = 'dfakunl';
