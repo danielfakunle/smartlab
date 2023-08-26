@@ -19,7 +19,13 @@ function Navbar({ type, page }: NavbarProps) {
     >
       <div className='container flex justify-between items-center py-6 px-4 md:px-6'>
         <div className='flex items-center space-x-8'>
-          <Logo size='base' page={page} />
+          <Logo
+            size='base'
+            page={page}
+            onClick={() =>
+              type === 'landing-page' ? navigate('/') : navigate('/home')
+            }
+          />
 
           <ul
             className={`${
