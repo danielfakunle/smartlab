@@ -80,7 +80,7 @@ function FaceDetect() {
     // If there are data regions...
     if (dataRegions) {
       // get bounding boxes...
-      const boundingBoxes: BoundingBox[] = dataRegions.map((item, index) => {
+      const boundingBoxes: BoundingBox[] = dataRegions.map((item) => {
         return {
           top_row: item.region_info.bounding_box.top_row,
           bottom_row: item.region_info.bounding_box.bottom_row,
