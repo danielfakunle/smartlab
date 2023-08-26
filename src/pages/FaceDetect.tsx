@@ -80,14 +80,12 @@ function FaceDetect() {
     // If there are data regions...
     if (dataRegions) {
       // get bounding boxes...
-      const boundingBoxes: BoundingBox[] = [
-        ...Array(dataRegions.length).keys(),
-      ].map((item, index) => {
+      const boundingBoxes: BoundingBox[] = dataRegions.map((item, index) => {
         return {
-          top_row: dataRegions[index].region_info.bounding_box.top_row,
-          bottom_row: dataRegions[index].region_info.bounding_box.bottom_row,
-          left_col: dataRegions[index].region_info.bounding_box.left_col,
-          right_col: dataRegions[index].region_info.bounding_box.right_col,
+          top_row: item.region_info.bounding_box.top_row,
+          bottom_row: item.region_info.bounding_box.bottom_row,
+          left_col: item.region_info.bounding_box.left_col,
+          right_col: item.region_info.bounding_box.right_col,
         };
       });
       // get the difference in position between the image placeholder and the image
@@ -163,10 +161,10 @@ function FaceDetect() {
                 return (
                   <motion.div
                     style={{
-                      x: displayInfo[index].left,
-                      y: displayInfo[index].top,
-                      width: displayInfo[index].width,
-                      height: displayInfo[index].height,
+                      x: item.left,
+                      y: item.top,
+                      width: item.width,
+                      height: item.height,
                     }}
                     className={`absolute inset-0 border-[3px] border-blue-700 rounded-md`}
                     key={index}
