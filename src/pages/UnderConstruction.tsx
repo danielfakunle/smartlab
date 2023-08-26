@@ -1,13 +1,10 @@
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notFound } from '../assets';
 import Button from '../components/Button';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import UserContext from '../context/UserContext';
 
 function UnderConstruction() {
-  const { currentUser } = useContext(UserContext) as UserContextType;
   const navigate = useNavigate();
   return (
     <>
@@ -27,7 +24,7 @@ function UnderConstruction() {
               type='button'
               style='default'
               size='large'
-              onClick={() => (currentUser ? navigate('/home') : navigate('/'))}
+              onClick={() => navigate('/home')}
             >
               Go home
             </Button>

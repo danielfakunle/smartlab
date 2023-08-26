@@ -42,7 +42,10 @@ function LoginForm() {
     if (currentUser) {
       navigate('/home');
     }
-    return () => setLoading(false);
+    return () => {
+      setLoading(false);
+      setHasError(false);
+    };
   }, [currentUser, hasError]);
 
   return (

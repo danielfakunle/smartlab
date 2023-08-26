@@ -5,6 +5,7 @@ type ButtonProps = {
   style?: string;
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 };
 
 function Button({
@@ -14,6 +15,7 @@ function Button({
   style = 'default',
   className = '',
   onClick,
+  disabled = false,
 }: ButtonProps) {
   const determineSize = (size: string) => {
     switch (size) {
@@ -39,6 +41,7 @@ function Button({
       onClick={onClick}
       className={`${determineSize(size)} ${determineStyle(style)} ${className}`}
       type={type}
+      disabled={disabled}
     >
       {children}
     </button>

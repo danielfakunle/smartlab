@@ -1,9 +1,15 @@
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import UserContext from '../context/UserContext';
+import { deleteUser } from '../utils/authUser';
+
 type FooterProps = {
   page: string;
   type?: 'landing-page' | 'app';
 };
 
 function Footer({ page, type = 'landing-page' }: FooterProps) {
+  const { setCurrentUser } = useContext(UserContext) as UserContextType;
   return (
     <footer
       className={`flex justify-center ${
@@ -23,7 +29,8 @@ function Footer({ page, type = 'landing-page' }: FooterProps) {
           </a>
         </p>
         <ul className='flex flex-col space-y-4 md:flex-row items-center md:space-y-0 md:space-x-4 h-fit'>
-          <li
+          <Link
+            to='/login'
             className={`${
               type === 'app' && 'hidden'
             } text-sm font-medium hover:text-blue-700 cursor-pointer ${
@@ -31,8 +38,9 @@ function Footer({ page, type = 'landing-page' }: FooterProps) {
             }`}
           >
             Log in
-          </li>
-          <li
+          </Link>
+          <Link
+            to='/signup'
             className={`${
               type === 'app' && 'hidden'
             } text-sm font-medium hover:text-blue-700 cursor-pointer ${
@@ -40,8 +48,13 @@ function Footer({ page, type = 'landing-page' }: FooterProps) {
             }`}
           >
             Sign up
-          </li>
-          <li
+          </Link>
+          <Link
+            to='/'
+            onClick={() => {
+              setCurrentUser(null);
+              deleteUser();
+            }}
             className={`${
               type !== 'app' && 'hidden'
             } text-sm font-medium hover:text-blue-700 cursor-pointer ${
@@ -49,7 +62,7 @@ function Footer({ page, type = 'landing-page' }: FooterProps) {
             }`}
           >
             Sign out
-          </li>
+          </Link>
         </ul>
       </div>
     </footer>
