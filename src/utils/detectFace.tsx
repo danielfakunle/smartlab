@@ -1,7 +1,7 @@
 export default async function detectFace(imageUrl: string) {
   const PAT = import.meta.env.VITE_PAT;
-  const USER_ID = 'dfakunl';
-  const APP_ID = 'smart-brain';
+  const USER_ID = 'clarifai';
+  const APP_ID = 'main';
   const MODEL_ID = 'face-detection';
   const IMAGE_URL = imageUrl;
 
